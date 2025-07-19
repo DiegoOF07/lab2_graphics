@@ -1,5 +1,6 @@
 use raylib::prelude::*;
 use crate::framebuffer::Framebuffer;
+use crate::patterns::{ insert_pulsar, insert_lwss, insert_gosper_glider_gun, insert_random};
 
 pub struct GameOfLife {
     width: usize,
@@ -9,19 +10,29 @@ pub struct GameOfLife {
 
 impl GameOfLife {
     pub fn new(width: usize, height: usize) -> Self {
-        let mut cells = vec![vec![false; height]; width];
-
-        cells[1][0] = true;
-        cells[2][1] = true;
-        cells[0][2] = true;
-        cells[1][2] = true;
-        cells[2][2] = true;
+        let cells = vec![vec![false; height]; width];
 
         GameOfLife {
             width,
             height,
             cells,
         }
+    }
+
+    pub fn spawn_pulsar(&mut self, x: usize, y: usize){
+        insert_pulsar(&mut self.cells, x, y);
+    }
+
+    pub fn spawn_lwss(&mut self, x: usize, y: usize) {
+        insert_lwss(&mut self.cells, x, y);
+    }
+    
+    pub fn spawn_gosper_glider_gun(&mut self, x: usize, y: usize) {
+        insert_gosper_glider_gun(&mut self.cells, x, y);
+    }
+
+    pub fn spawn_random(&mut self, width: usize, height: usize, prob: f64) {
+        insert_random(&mut self.cells, 0, 0, width, height, prob);
     }
 
     pub fn update(&mut self) {
